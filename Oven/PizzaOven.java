@@ -7,7 +7,7 @@ public enum PizzaOven {
     public Pizza getPizza(String flavour){
         if (flavour != null){
             switch(flavour){
-                case "CheeseAndTomato":
+                case "Cheese And Tomato":
                     stores.pizzaBase(-1);
                     return new CheeseAndTomato();
                 case "Pepperoni":

@@ -99,15 +99,24 @@ public enum Stores {
     }
 
     public void checkStoresLevel(){
-        List<Integer> indexes = new ArrayList<>();
-        int indexCount = 0;
+        int stockCount = 0;
         boolean fullRestock = false;
-        for (Ingredient ingredient : allStores){
-            if (ingredient.getQuantity() < 5){
-                indexes.add(indexCount);
-                indexCount++;
+        boolean roundTwo = false;
+
+        for (int i = 0; i < 2; i++){
+            for (Ingredient ingredient : allStores){
+                if (fullRestock){
+                    replenishAll();
+                } else {
+                    if (stockCount > 5){
+                        fullRestock = true;
+                    } else if (!roundTwo){
+                        if (ingredient.getQuantity() < 5) stockCount++;
+                    }
+                }
             }
         }
+        
 
     }
 }

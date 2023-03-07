@@ -2,13 +2,13 @@
 public abstract class Worker {
     private String name;
     private int age;
-    private double skill;
+    private double likeability;
     private int yearsExperience;
 
-    public Worker(String name, int age, double skill, int yearsExperience){
+    public Worker(String name, int age, double likeability, int yearsExperience){
         this.name = name;
         this.age = age;
-        this.skill = skill;
+        this.likeability = likeability;
         this.yearsExperience = yearsExperience;
     }
 
@@ -24,12 +24,12 @@ public abstract class Worker {
         this.age = age;
     }
 
-    public double getSkill(){
-        return skill;
+    public double getLikeability(){
+        return likeability;
     }
 
-    public void setSkill(double skill){
-        this.skill = skill;
+    public void setlikeability(double likeability){
+        this.likeability = likeability;
     }
 
     public int getYearsExperience(){
