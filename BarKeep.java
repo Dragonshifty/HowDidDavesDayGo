@@ -9,7 +9,7 @@ public class BarKeep extends Worker implements Staff {
 
     public Cocktail makeDrink(String cocktail){
         DrinkList drinkList = DrinkList.INSTANCE;
-        Stress.addInteraction(super.getName() + " prepared.");
+        Stress.addDrinkInteraction(super.getName() + " prepared.");
         return drinkList.getCocktail(cocktail);
     }
 
