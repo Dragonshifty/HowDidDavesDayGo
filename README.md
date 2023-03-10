@@ -27,3 +27,5 @@ Here's a list of some of the programming elements used:
 - Alogithms 
 - Encapsulation
 - Thread-safety
+- Inheritance
+- Abstract class vs Interface
