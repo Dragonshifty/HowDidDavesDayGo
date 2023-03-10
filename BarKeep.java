@@ -9,7 +9,8 @@ public class BarKeep extends Worker implements Staff {
 
     public Cocktail makeDrink(String cocktail){
         DrinkList drinkList = DrinkList.INSTANCE;
-        Stress.addDrinkInteraction(super.getName() + " prepared.");
+        Stress stress = Stress.getInstance();
+        stress.addDrinkInteraction(super.getName() + " prepared.");
         return drinkList.getCocktail(cocktail);
     }
 

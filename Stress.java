@@ -1,36 +1,47 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
 public class Stress {
     
-    private static List<String> foodInteractions = new ArrayList<>(); 
-    private static List<String> drinkInteractions = new ArrayList<>(); 
-    private List<Worker> staffList = new ArrayList<>();
+    private List<String> foodInteractions = new ArrayList<>(); 
+    private List<String> drinkInteractions = new ArrayList<>(); 
 
-    private HashMap<String, Integer> staffInteractionsCount = new HashMap<>();
+    private static HashMap<String, Integer> staffInteractionsCount = new HashMap<>();
+    private static HashMap<String, Integer> foodAndDrinkInteractionsCount = new HashMap<>();
     
-    public Stress(){
+    private Stress(){};
+
+    private static volatile Stress instance;
+    public static Stress getInstance() {
+        if (instance == null){
+            synchronized(Stress.class){
+                if (instance == null){
+                instance = new Stress();
+                }
+            }
+        }
+    return instance;
+    }
+
+    static{
         staffInteractionsCount.put("Brian", 0);
         staffInteractionsCount.put("Sarah", 0);
         staffInteractionsCount.put("Jeremy", 0);
         staffInteractionsCount.put("Laura", 0);
-        staffInteractionsCount.put("Steve", 0);
+        // staffInteractionsCount.put("Steve", 0);
+
+        foodAndDrinkInteractionsCount.put("Anchovies", 0);
+        foodAndDrinkInteractionsCount.put("Vodka", 0);
     }
     
-    public static void addFoodInteraction(String action){
+    public void addFoodInteraction(String action){
         foodInteractions.add(action);
     }
 
-    public static void addDrinkInteraction(String action){
+    public void addDrinkInteraction(String action){
         drinkInteractions.add(action);
     }
-
-    public void getStaffList(List<Worker> staff){
-        staffList = staff;
-    }
-
 
     public void checkStress(){
         for (String interaction : foodInteractions){
@@ -41,38 +52,20 @@ public class Stress {
         }
     }
 
-    // public static void checkFoodDislikes(){
-    //     long count = IntStream.range(0, foodInteractions.size() -1)
-    //     .filter(x -> foodInteractions.get(x).startsWith("Dave") &&
-    //     Arrays.stream(foodInteractions.get(x + 1).split(":")[1].split(","))
-    //     .map(String::trim)
-    //     .anyMatch("Special"::equals))
-    //     .count();
+    public void showStaffInteractions(){
+        staffInteractionsCount.entrySet().stream()
+        .map(entry -> entry.getKey() + " : " + entry.getValue())
+        .forEach(System.out::println);
+    }
 
-        // long count = IntStream.range(0, foodInteractions.size() -1)
-        // .filter(x -> foodInteractions.get(x).startsWith("Dave") ) &&
-        // Arrays.stream(foodInteractions.get(x + 1)).split(" ")
-        // .map(String::trim)
-        // .anyMatch("Seafood")
-        // .count();
+    public void showFoodAndDrinkInteractions(){
+        foodAndDrinkInteractionsCount.entrySet().stream()
+        .map(entry -> entry.getKey() + " : " + entry.getValue())
+        .forEach(System.out::println);
+    }
 
-        // int count = (int)IntStream.range(0, foodInteractions.size() - 1)
-        // .filter(x -> foodInteractions.get(x).startsWith("Brian") &&
-        // foodInteractions.get(x + 1).startsWith("Dave"))
-        // .count();
-
-        // System.out.println(count);
-    // }
-
-    public void checkDrinkInteractions(){
-        // long count = drinkInteractions.stream()
-        // .flatMap(drinkeInterations -> Arrays.stream(drinkInterations.split("\\s+")))
-        // .filter(x -> x.startsWith("Dave"))
-        // .filter(x -> x.substring(x.indexOf(":") +1))
-        // .replaceAll(",", "")
-        // .contains("Vodka")
-        // .count();
-        long count = drinkInteractions.stream()
+    public void logFoodAndDrinkInteractions(){
+        int count = (int)drinkInteractions.stream()
         .filter(input -> input.startsWith("Dave"))
         .filter(input -> {
             int colonIndex = input.indexOf(":");
@@ -83,57 +76,33 @@ public class Stress {
             return false;
         })
         .count();
-        System.out.println(count);
+        count += foodAndDrinkInteractionsCount.get("Vodka");
+        foodAndDrinkInteractionsCount.put("Vodka", count);
 
-        int count1 = (int)foodInteractions.stream()
+        int count2 = (int)foodInteractions.stream()
         .filter(x -> x.startsWith("Dave"))
-        .filter(x -> x.endsWith("Special"))
+        .filter(x -> x.endsWith("Special") | x.endsWith("Seafood"))
         .count();
-        System.out.println(count1);
+        count2 += foodAndDrinkInteractionsCount.get("Anchovies");
+        foodAndDrinkInteractionsCount.put("Anchovies", count2);
     }
     
-
-    public void staffInteractions(){
+    public void logStaffInteractions(){
         for (String worker : staffInteractionsCount.keySet()){
             int countFood = (int)IntStream.range(0, foodInteractions.size() - 1)
             .filter(x -> foodInteractions.get(x).startsWith(worker) &&
             foodInteractions.get(x + 1).startsWith("Dave"))
             .count();
-            if (countFood > staffInteractionsCount.get(worker))
-            staffInteractionsCount.replace(worker, countFood);
+            int previousFoodCount = staffInteractionsCount.getOrDefault(worker, 0);
+            staffInteractionsCount.replace(worker, previousFoodCount + countFood);
 
             int countDrink = (int)IntStream.range(0, drinkInteractions.size() - 1)
             .filter(x -> drinkInteractions.get(x).startsWith(worker) &&
             drinkInteractions.get(x + 1).startsWith("Dave"))
             .count();
-            if (countDrink > staffInteractionsCount.get(worker))
-            staffInteractionsCount.replace(worker, countDrink);
+
+            int previousDrinkCount = staffInteractionsCount.getOrDefault(worker, 0);
+            staffInteractionsCount.replace(worker, previousDrinkCount + countDrink);
         }
-
-        staffInteractionsCount.forEach((k, v) -> System.out.println(k + " : " + v));
-
-        
-
-        // interactionWithBrian = (int)IntStream.range(0, foodInteractions.size() - 1)
-        // .filter(x -> foodInteractions.get(x).startsWith("Brian") &&
-        // foodInteractions.get(x + 1).startsWith("Dave"))
-        // .count();
-
-        // interactionWithSarah = (int)IntStream.range(0, foodInteractions.size() - 1)
-        // .filter(x -> foodInteractions.get(x).startsWith("Sarah") &&
-        // foodInteractions.get(x + 1).startsWith("Dave"))
-        // .count();
-
-        // interactionWithJeremy = (int)IntStream.range(0, drinkInteractions.size() - 1)
-        // .filter(x -> drinkInteractions.get(x).startsWith("Jeremy") &&
-        // foodInteractions.get(x + 1).startsWith("Dave"))
-        // .count();
-
-        // interactionWithLaura = (int)IntStream.range(0, drinkInteractions.size() - 1)
-        // .filter(x -> drinkInteractions.get(x).startsWith("Laura") &&
-        // foodInteractions.get(x + 1).startsWith("Dave"))
-        // .count();
     }
-
-
 }

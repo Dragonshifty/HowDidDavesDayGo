@@ -8,7 +8,8 @@ public class Chef extends Worker implements Staff{
 
     public Pizza cookFood(String flavour){
         PizzaOven oven = PizzaOven.INSTANCE;
-        Stress.addFoodInteraction(super.getName() + " cooked.");
+        Stress stress = Stress.getInstance();
+        stress.addFoodInteraction(super.getName() + " cooked.");
         return oven.getPizza(flavour);
     }
 

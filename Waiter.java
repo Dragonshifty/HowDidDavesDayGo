@@ -10,23 +10,22 @@ public class Waiter extends Worker implements Serve, Staff{
         super(name, age, likeability, yearsExperience, likes, hates);
     }
 
-
     public void serveFood(Pizza pizza){ 
-        Stress.addFoodInteraction(super.getName() + " served " + pizza);
+        Stress stress = Stress.getInstance();
+        stress.addFoodInteraction(super.getName() + " served " + pizza);
         // System.out.println(super.getName() + " serves " + pizza);
         // callBack.run();
     }
 
     public void serveDrink(Cocktail cocktail) {
-        Stress.addDrinkInteraction(super.getName() + " served " + cocktail);
+        Stress stress = Stress.getInstance();
+        stress.addDrinkInteraction(super.getName() + " served " + cocktail);
         // System.out.println(super.getName() + " serves " + cocktail);
     }
 
     public void attendMeeting(){
         System.out.println(super.getName() + " attends meeting");
     }
-
-
 }
 
 
