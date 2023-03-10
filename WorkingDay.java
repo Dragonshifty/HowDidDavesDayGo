@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -10,18 +11,12 @@ public class WorkingDay {
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm");
 
     //Check staff roll
-    BarKeep jeremy = new BarKeep("Jeremy", 22, 5.3, 4);
-    BarKeep laura = new BarKeep("Laura", 24, 4, 4);
-    Chef brian = new Chef("Brian", 33, 2.3, 10);
-    Chef sarah = new Chef("Sarah", 41, 7.3, 6);
-    Waiter dave = new Waiter("Dave", 45, 5, 0, "Sarah", "Anchovies");
-    Waiter steve = new Waiter("Steve", 30, 6, 4);
-
-    boolean jeremyOffSick;
-    boolean lauraOffSick;
-    boolean brianOffSick;
-    boolean sarahOffSick;
-    boolean steveOffSick;
+    BarKeep jeremy = new BarKeep("Jeremy", 22, 5.3, 4, true);
+    BarKeep laura = new BarKeep("Laura", 24, 4, 4, true);
+    Chef brian = new Chef("Brian", 33, 2.3, 10, true);
+    Chef sarah = new Chef("Sarah", 41, 7.3, 6, true);
+    Waiter dave = new Waiter("Dave", 45, 5, 0, true, "Sarah", "Anchovies");
+    Waiter steve = new Waiter("Steve", 30, 6, 4, true);
 
     List<Worker> staffList = new ArrayList<>();
 
@@ -41,6 +36,9 @@ public class WorkingDay {
         staffList.add(sarah);
         staffList.add(dave);
         staffList.add(steve);
+
+        // Is anyone off sick?
+        staffOffSick();
     }
     
     public void morningShift(){
@@ -101,9 +99,17 @@ public class WorkingDay {
         stress.logFoodAndDrinkInteractions();
         stress.showFoodAndDrinkInteractions();
         stress.showStaffInteractions();
+        staffOffSick();
     }
 
     public void afternoonShift(){
 
+    }
+
+    public void staffOffSick(){
+        Worker possibleSickWorker = staffList.get(ThreadLocalRandom.current().nextInt(0, staffList.size() -1));
+        int isSick = ThreadLocalRandom.current().nextInt(0, 4);
+        if (isSick == 3) possibleSickWorker.setIsHealthy(false);  
+        // possibleSickWorker.setIsHealthy(false);  
     }
 }

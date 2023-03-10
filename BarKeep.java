@@ -3,8 +3,8 @@ import Bar.DrinkList;
 
 public class BarKeep extends Worker implements Staff {
 
-    public BarKeep (String name, int age, double likeability, int yearsExperience){
-        super(name, age, likeability, yearsExperience);
+    public BarKeep (String name, int age, double likeability, int yearsExperience, boolean isHealthy){
+        super(name, age, likeability, yearsExperience, isHealthy);
     }
 
     public Cocktail makeDrink(String cocktail){

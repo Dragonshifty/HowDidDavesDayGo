@@ -2,12 +2,12 @@ import Bar.Cocktail;
 import Kitchen.Pizza;
 public class Waiter extends Worker implements Serve, Staff{
 
-    public Waiter (String name, int age, double likeability, int yearsExperience){
-        super(name, age, likeability, yearsExperience);
+    public Waiter (String name, int age, double likeability, int yearsExperience, boolean isHealthy){
+        super(name, age, likeability, yearsExperience, isHealthy);
     }
 
-    public Waiter (String name, int age, double likeability, int yearsExperience, String likes, String hates){
-        super(name, age, likeability, yearsExperience, likes, hates);
+    public Waiter (String name, int age, double likeability, int yearsExperience, boolean isHealthy, String likes, String hates){
+        super(name, age, likeability, yearsExperience, isHealthy, likes, hates);
     }
 
     public void serveFood(Pizza pizza){ 

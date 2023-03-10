@@ -2,8 +2,8 @@ import Kitchen.Pizza;
 import Kitchen.PizzaOven;
 public class Chef extends Worker implements Staff{
      
-    public Chef(String name, int age, double likeability, int yearsExperience){
-        super(name, age, likeability, yearsExperience);
+    public Chef(String name, int age, double likeability, int yearsExperience, boolean isHealthy){
+        super(name, age, likeability, yearsExperience, isHealthy);
     }
 
     public Pizza cookFood(String flavour){

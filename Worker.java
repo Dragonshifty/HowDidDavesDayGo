@@ -6,19 +6,22 @@ public abstract class Worker {
     private int yearsExperience;
     private String likes;
     private String hates;
+    private boolean isHealthy;
 
-    public Worker(String name, int age, double likeability, int yearsExperience){
+    public Worker(String name, int age, double likeability, int yearsExperience, boolean isHealthy){
         this.name = name;
         this.age = age;
         this.likeability = likeability;
         this.yearsExperience = yearsExperience;
+        this.isHealthy = isHealthy;
     }
 
-    public Worker(String name, int age, double likeability, int yearsExperience, String likes, String hates){
+    public Worker(String name, int age, double likeability, int yearsExperience, boolean isHealthy, String likes, String hates){
         this.name = name;
         this.age = age;
         this.likeability = likeability;
         this.yearsExperience = yearsExperience;
+        this.isHealthy = isHealthy;
         this.likes = likes;
         this.hates = hates;
     }
@@ -41,6 +44,14 @@ public abstract class Worker {
 
     public int getYearsExperience(){
         return yearsExperience;
+    }
+
+    public boolean getIsHealthy(){
+        return isHealthy;
+    }
+
+    public void setIsHealthy(boolean isHealthy){
+        this.isHealthy = isHealthy;
     }
 
     public String getLikes(){
