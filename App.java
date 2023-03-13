@@ -7,5 +7,6 @@ public class App {
         workingDay.staffArrive();
         workingDay.morningShift();
         workingDay.lunchShift();
+        workingDay.afternoonShift();
     }
 }

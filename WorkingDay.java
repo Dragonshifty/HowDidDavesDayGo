@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class WorkingDay {
     // Set time of day
-    LocalDateTime workDayStart;
+    LocalDateTime currentTime;
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm");
 
     //Check staff roll
@@ -20,6 +20,8 @@ public class WorkingDay {
 
     List<Worker> staffList = new ArrayList<>();
 
+    boolean managementIn;
+
     // Mentally prepare for general public
     Customers customers = new Customers();
 
@@ -28,7 +30,7 @@ public class WorkingDay {
 
     public void staffArrive(){
         // Staff clock-in
-        workDayStart = LocalDateTime.of(1985, 6, 25, 8, 00);
+        currentTime = LocalDateTime.of(1985, 6, 25, 8, 00);
 
         staffList.add(jeremy);
         staffList.add(laura);
@@ -43,38 +45,36 @@ public class WorkingDay {
     
     public void morningShift(){
         // Doors open
-        LocalDateTime openingTime = workDayStart.plusHours(1);
+        currentTime = currentTime.plusHours(1);
 
-        // Get how many groups of customers 
-        int groups = ThreadLocalRandom.current().nextInt(5, 11);
-
-        // Serve Customers
-        for (int i = 0; i <= groups; i++){
-            List<String> foodOrder = customers.getFoodOrder();
-            List<String> drinkOrder = customers.getDrinksOrder();
-
-            for (String order : foodOrder){
-                Waiter waiter = ThreadLocalRandom.current().nextInt(0, 2) == 0 ? dave : steve;
-                Chef chef = ThreadLocalRandom.current().nextInt(0, 2) == 0 ?  brian :  sarah;
-                waiter.serveFood(chef.cookFood(order));
-            }
-    
-            for (String order : drinkOrder){
-                Waiter waiter = ThreadLocalRandom.current().nextInt(0, 2) == 0 ? dave : steve;
-                BarKeep barKeep = ThreadLocalRandom.current().nextInt(0, 2) == 0 ? jeremy : laura;
-                waiter.serveDrink(barKeep.makeDrink(order));
-            }
-        }
-        stress.logStaffInteractions();
-        stress.logFoodAndDrinkInteractions();
-        stress.showFoodAndDrinkInteractions();
-        stress.showStaffInteractions();
+        serveCustomers(); 
     }
 
     public void lunchShift(){
         // Lunch
-        LocalDateTime lunchTime = workDayStart.plusHours(3);
+        currentTime = currentTime.plusHours(3);
 
+        serveCustomers();
+    }
+
+    public void afternoonShift(){
+        // Afternoon
+        currentTime = currentTime.plusHours(2);
+
+        serveCustomers();
+     
+        stress.getStaffList(staffList);
+        stress.logStaffInteractions();
+        stress.logFoodAndDrinkInteractions();
+        stress.showFoodAndDrinkInteractions();
+        stress.showStaffInteractions();
+        stress.percentageServed();
+        stress.sarahInteractions();
+        stress.staffPercentages();
+        stress.runNumbers();
+    }
+
+    public void serveCustomers(){
         // Get how many groups of customers 
         int groups = ThreadLocalRandom.current().nextInt(5, 11);
 
@@ -86,30 +86,38 @@ public class WorkingDay {
             for (String order : foodOrder){
                 Waiter waiter = ThreadLocalRandom.current().nextInt(0, 2) == 0 ? dave : steve;
                 Chef chef = ThreadLocalRandom.current().nextInt(0, 2) == 0 ?  brian :  sarah;
+                if (!dave.getIsHealthy()) waiter = steve;
+                else if (!steve.getIsHealthy()) waiter = dave;
+                if(!brian.getIsHealthy()) chef = sarah;
+                else if (!sarah.getIsHealthy()) chef = brian;
                 waiter.serveFood(chef.cookFood(order));
             }
     
             for (String order : drinkOrder){
                 Waiter waiter = ThreadLocalRandom.current().nextInt(0, 2) == 0 ? dave : steve;
                 BarKeep barKeep = ThreadLocalRandom.current().nextInt(0, 2) == 0 ? jeremy : laura;
+                if (!dave.getIsHealthy()) waiter = steve;
+                else if (!steve.getIsHealthy()) waiter = dave;
+                if (!jeremy.getIsHealthy()) barKeep = laura;
+                else if (!laura.getIsHealthy()) barKeep = jeremy;
                 waiter.serveDrink(barKeep.makeDrink(order));
             }
         }
-        stress.logStaffInteractions();
-        stress.logFoodAndDrinkInteractions();
-        stress.showFoodAndDrinkInteractions();
-        stress.showStaffInteractions();
-        staffOffSick();
-    }
-
-    public void afternoonShift(){
-
     }
 
     public void staffOffSick(){
+        Stress stress = Stress.getInstance();
+
         Worker possibleSickWorker = staffList.get(ThreadLocalRandom.current().nextInt(0, staffList.size() -1));
         int isSick = ThreadLocalRandom.current().nextInt(0, 4);
-        if (isSick == 3) possibleSickWorker.setIsHealthy(false);  
-        // possibleSickWorker.setIsHealthy(false);  
+        if (isSick == 3) {
+            possibleSickWorker.setIsHealthy(false);  
+            stress.setSickWorker(possibleSickWorker.getName());
+        }
+    }
+
+    public void isManagementIn(){
+        int possible = ThreadLocalRandom.current().nextInt(0, 6);
+        if (possible == 4) managementIn = true;
     }
 }
