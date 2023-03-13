@@ -11,10 +11,11 @@ Here's a list of the things that happen that you won't see:
 - Randomly determined amounts of groups will come in to the respective time periods and create food and drinks orders
 - Each food order will create specific pizza objects (Factory pattern), using specific Ingredient objects for each pizza that are refilled from stores when necessary
 - Each drinks order will create specific cocktail objects (Builder pattern and Factory pattern)
-- These orders will be carried out by other staff, such as Chefs and Barkeeps, as well as another waiter
+- These orders will be carried out by other staff, such as Chefs and Barkeeps, as well as another waiter, and handed to the waiter to serve
 - Each staff member is constructed with different attributes, such as years experience and likeability
-- Interactions with each staff will contribute to Dave's mood - with one particular staff member making him particularly happy
+- Interactions with each staff will contribute to Dave's mood - he's also particularly fond of on member of staff
 - Staff members may be off ill (adding to stress levels)
+- Are management in? Staff meetings and fake smiles can be annoying.
 - Dave also has likes and dislikes (for instance, he hates anchovies, so serving these kind of pizzas has an adverse effect)
 
 Here's a list of some of the programming elements used:
@@ -22,10 +23,10 @@ Here's a list of some of the programming elements used:
 - Builder pattern
 - Singleton patterns (Enum and double-lock instances)
 - Streams
-- Async multithreading (when I get it to work)
 - Data structures
 - Alogithms 
 - Encapsulation
+- Overloading
 - Thread-safety
 - Inheritance
 - Abstract class vs Interface
