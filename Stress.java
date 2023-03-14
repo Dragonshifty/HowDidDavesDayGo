@@ -8,6 +8,7 @@ public class Stress {
     
     private List<String> foodInteractions = new ArrayList<>(); 
     private List<String> drinkInteractions = new ArrayList<>(); 
+    private List<String> smileInteractions = new ArrayList<>();
 
     private static HashMap<String, Integer> staffInteractionsCount = new HashMap<>();
     private static HashMap<String, Integer> foodAndDrinkInteractionsCount = new HashMap<>();
@@ -15,6 +16,8 @@ public class Stress {
     private List<Worker> staffList = new ArrayList<>();
 
     private String workerSick;
+
+    private int score;
     
     private Stress(){};
 
@@ -65,6 +68,10 @@ public class Stress {
         drinkInteractions.add(action);
     }
 
+    public void addSmileInteraction(String action){
+        smileInteractions.add(action);
+    }
+
     public void checkStress(){
         for (String interaction : foodInteractions){
             System.out.println(interaction);
@@ -93,11 +100,6 @@ public class Stress {
         .count();
         count += foodAndDrinkInteractionsCount.get("Vodka");
         foodAndDrinkInteractionsCount.put("Vodka", count);
-
-        // drinkInteractions.stream()
-        // .filter(x -> x.startsWith("Dave"))
-        // .filter(x -> x.contains("Vodka"))
-        // .forEach(System.out::println);
 
         int count2 = (int)foodInteractions.stream()
         .filter(x -> x.startsWith("Dave"))
@@ -135,30 +137,11 @@ public class Stress {
         .count();
         long percentage = Math.round(((double)daveServed / totalInteractions) * 100);
 
-        // System.out.println("Total order: " + totalInteractions + "\nDave served: " + daveServed 
-        // + "\nPercentage: " + percentage);
         return percentage;
     }
 
-    public void sarahInteractions(){
-        long totalFoodServed = foodInteractions.size() / 2;
-
-        long sarahCooked = foodInteractions.stream()
-        .filter(x -> x.contains("Sarah"))
-        .count();
-
-        long sarahCookedDaveServed = staffInteractionsCount.get("Sarah");
-
-        long percentageOfSarahInteractions = Math.round(((double)sarahCookedDaveServed / sarahCooked) * 100);
-
-        System.out.println("Order size: " + totalFoodServed + "\nSarah cooked: " + sarahCooked
-        + "\nPercentage with Dave: " + percentageOfSarahInteractions);
-        System.out.println(workerSick);
-    }
-
     public void staffPercentages(){
-        long totalFoodServed = foodInteractions.size() / 2;
-        long totalDrinkServed = drinkInteractions.size() / 2;
+        // Percentage of interactions with staff members compared to the other waiter
         
         for (String worker : daveToStaffPercentages.keySet()){
             int totalFoodWorked = (int) foodInteractions.stream()
@@ -179,15 +162,69 @@ public class Stress {
             totalFoodWorked = 0;
             totalDrinkWorked = 0;
         }
-        daveToStaffPercentages.entrySet().stream()
-        .map(x -> x.getKey() + " " + x.getValue())
-        .forEach(System.out::println);
     }
 
-    public void runNumbers(){
-        for (Worker worker : staffList){
-            if ("Steve".equals(worker.getName()) | "Dave".equals(worker.getName())) continue;
-            System.out.println(worker.getName() + " " + daveToStaffPercentages.get(worker.getName()) * worker.getLikeability());
+    public void assignStaffPoints(){
+        // Plus or minus for every point above/below 50 and wether staff member is likeable
+       
+        for (Worker worker: staffList){
+            if (worker.getName().equals("Steve") | worker.getName().equals("Dave")) continue;
+
+            int scoreTemp = 0;
+            int percentageHold = daveToStaffPercentages.get(worker.getName());
+            
+            if (percentageHold != 0 && worker.getLikeable()){
+                if (percentageHold > 50){
+                    scoreTemp += percentageHold - 50;
+                    // Double points for interactions with Sarah
+                    if (worker.getName().equals("Sarah")) scoreTemp *= 2;
+                    score += percentageHold - 50;
+                } else {
+                    scoreTemp -= 50 - percentageHold;
+                    score -= 50 - percentageHold;
+                }
+            } else if (percentageHold != 0 && !worker.getLikeable()){
+                if (percentageHold > 50){
+                    scoreTemp -= percentageHold - 50;
+                    score -= percentageHold - 50;
+                } else {
+                    scoreTemp += 50 - percentageHold;
+                    score += 50 - percentageHold;
+                }
+            }
         }
+    }
+
+    public void assignFoodLikes(){
+        // Plus or minus points based on vodka interactions (like) to anchovy interactions (dislike)
+
+        int foodScore = foodAndDrinkInteractionsCount.get("Vodka")- 
+        foodAndDrinkInteractionsCount.get("Anchovies");
+
+        score += foodScore;
+    }
+
+    public void logSmileInteractions() {
+        // Management in for the session
+        // Minus points if Dave has to smile more than the other waier
+        if (!smileInteractions.isEmpty()){
+            int count = (int) smileInteractions.stream()
+            .filter(x -> x.startsWith("Dave"))
+            .count();
+            
+            int percentage = (int) Math.round(((double) count / smileInteractions.size()) * 100);
+            int scoreTemp = (percentage > 50) ? (50 - percentage) : 0;
+
+            score += scoreTemp;
+        }
+    }
+
+    public void howDidDavesDayGo(){
+        System.out.println("Final score: " + score);
+        for (Worker worker : staffList){
+            if (!worker.getIsHealthy()) System.out.println(worker.getName() + " was off ill today.");
+        }
+        if (score > 0) System.out.println("Dave had a good day!");
+        if (score <= 0) System.out.println("Dave had a bad day!");
     }
 }

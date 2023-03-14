@@ -2,12 +2,12 @@ import Bar.Cocktail;
 import Kitchen.Pizza;
 public class Waiter extends Worker implements Serve, Staff{
 
-    public Waiter (String name, int age, double likeability, int yearsExperience, boolean isHealthy){
-        super(name, age, likeability, yearsExperience, isHealthy);
+    public Waiter (String name, int age, boolean likeable, int yearsExperience, boolean isHealthy){
+        super(name, age, likeable, yearsExperience, isHealthy);
     }
 
-    public Waiter (String name, int age, double likeability, int yearsExperience, boolean isHealthy, String likes, String hates){
-        super(name, age, likeability, yearsExperience, isHealthy, likes, hates);
+    public Waiter (String name, int age, int yearsExperience, boolean isHealthy, String likes, String hates){
+        super(name, age, yearsExperience, isHealthy, likes, hates);
     }
 
     public void serveFood(Pizza pizza){ 
@@ -24,7 +24,7 @@ public class Waiter extends Worker implements Serve, Staff{
     }
 
     public void attendMeeting(){
-        System.out.println(super.getName() + " attends meeting");
+        // System.out.println(super.getName() + " attends meeting");
     }
 }
 

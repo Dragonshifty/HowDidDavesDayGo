@@ -2,24 +2,23 @@
 public abstract class Worker {
     private String name;
     private int age;
-    private double likeability;
+    private boolean likeable;
     private int yearsExperience;
     private String likes;
     private String hates;
     private boolean isHealthy;
 
-    public Worker(String name, int age, double likeability, int yearsExperience, boolean isHealthy){
+    public Worker(String name, int age, boolean likeable, int yearsExperience, boolean isHealthy){
         this.name = name;
         this.age = age;
-        this.likeability = likeability;
+        this.likeable = likeable;
         this.yearsExperience = yearsExperience;
         this.isHealthy = isHealthy;
     }
 
-    public Worker(String name, int age, double likeability, int yearsExperience, boolean isHealthy, String likes, String hates){
+    public Worker(String name, int age, int yearsExperience, boolean isHealthy, String likes, String hates){
         this.name = name;
         this.age = age;
-        this.likeability = likeability;
         this.yearsExperience = yearsExperience;
         this.isHealthy = isHealthy;
         this.likes = likes;
@@ -38,8 +37,12 @@ public abstract class Worker {
         this.age = age;
     }
 
-    public double getLikeability(){
-        return likeability;
+    public boolean getLikeable(){
+        return likeable;
+    }
+
+    public void isLikeable(boolean likeable){
+        this.likeable = likeable;
     }
 
     public int getYearsExperience(){

@@ -3,8 +3,8 @@ import Bar.DrinkList;
 
 public class BarKeep extends Worker implements Staff {
 
-    public BarKeep (String name, int age, double likeability, int yearsExperience, boolean isHealthy){
-        super(name, age, likeability, yearsExperience, isHealthy);
+    public BarKeep (String name, int age, boolean likeable, int yearsExperience, boolean isHealthy){
+        super(name, age, likeable, yearsExperience, isHealthy);
     }
 
     public Cocktail makeDrink(String cocktail){
@@ -15,6 +15,6 @@ public class BarKeep extends Worker implements Staff {
     }
 
     public void attendMeeting(){
-        System.out.println(super.getName() + " attends meeting");
+        // System.out.println(super.getName() + " attends meeting");
     }
 }

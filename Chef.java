@@ -2,8 +2,8 @@ import Kitchen.Pizza;
 import Kitchen.PizzaOven;
 public class Chef extends Worker implements Staff{
      
-    public Chef(String name, int age, double likeability, int yearsExperience, boolean isHealthy){
-        super(name, age, likeability, yearsExperience, isHealthy);
+    public Chef(String name, int age, boolean likeable, int yearsExperience, boolean isHealthy){
+        super(name, age, likeable, yearsExperience, isHealthy);
     }
 
     public Pizza cookFood(String flavour){
@@ -14,7 +14,7 @@ public class Chef extends Worker implements Staff{
     }
 
     public void attendMeeting(){
-        System.out.println(super.getName() + " attends meeting");
+        // System.out.println(super.getName() + " attends meeting");
     }
     
 }
