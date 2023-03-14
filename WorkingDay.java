@@ -91,8 +91,6 @@ public class WorkingDay {
         // Get how many groups of customers 
         int groups = ThreadLocalRandom.current().nextInt(5, 11);
 
-        Stress stress = Stress.getInstance();
-
         // Serve Customers
         for (int i = 0; i <= groups; i++){
             List<String> foodOrder = customers.getFoodOrder();
