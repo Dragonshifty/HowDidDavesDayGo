@@ -13,7 +13,7 @@ Here's a list of the things that happen that you won't see:
 - Each drinks order will create specific cocktail objects (Builder pattern and Factory pattern)
 - These orders will be carried out by other staff, such as Chefs and Barkeeps, as well as another waiter, and handed to the waiter to serve
 - Each staff member is constructed with different attributes, such as years experience and likeability
-- Interactions with each staff will contribute to Dave's mood - he's also particularly fond of on member of staff
+- Interactions with each staff will contribute to Dave's mood - he's also particularly fond of one member of staff
 - Staff members may be off ill (adding to stress levels)
 - Are management in? Staff meetings and fake smiles can be annoying.
 - Dave also has likes and dislikes (for instance, he hates anchovies, so serving these kind of pizzas has an adverse effect)
