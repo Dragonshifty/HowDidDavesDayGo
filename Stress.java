@@ -115,7 +115,7 @@ public class Stress {
         .collect(Collectors.toList());
 
         for (String worker : staffInteractionsCount.keySet()){
-            int staffInteractionsWithDave = (int)IntStream.range(0, allInteractions.size() -1)
+            int staffInteractionsWithDave = (int)IntStream.range(0, allInteractions.size())
             .filter(x -> allInteractions.get(x)
             .startsWith(worker) && allInteractions.get(x + 1)
             .startsWith("Dave"))
@@ -141,7 +141,7 @@ public class Stress {
     }
 
     public void staffPercentages(){
-        // Percentage of interactions with staff members compared to the other waiter
+        // Percentage of interactions with staff members compared to the other waiter (Steve)
         
         for (String worker : daveToStaffPercentages.keySet()){
             int totalFoodWorked = (int) foodInteractions.stream()
@@ -177,8 +177,12 @@ public class Stress {
                 if (percentageHold > 50){
                     scoreTemp += percentageHold - 50;
                     // Double points for interactions with Sarah
-                    if (worker.getName().equals("Sarah")) scoreTemp *= 2;
-                    score += percentageHold - 50;
+                    if (worker.getName().equals("Sarah")) {
+                        scoreTemp *= 2;
+                        score += scoreTemp;
+                    } else {
+                        score += percentageHold - 50;
+                    }
                 } else {
                     scoreTemp -= 50 - percentageHold;
                     score -= 50 - percentageHold;
@@ -206,7 +210,7 @@ public class Stress {
 
     public void logSmileInteractions() {
         // Management in for the session
-        // Minus points if Dave has to smile more than the other waier
+        // Minus points if Dave has to smile more than the other waiter
         if (!smileInteractions.isEmpty()){
             int count = (int) smileInteractions.stream()
             .filter(x -> x.startsWith("Dave"))

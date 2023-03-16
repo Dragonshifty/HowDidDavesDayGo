@@ -82,6 +82,8 @@ public class WorkingDay {
         isManagementIn();
 
         serveCustomers();
+
+        managementIn = false;
      
         // Run end of day figures
         endOfDay();
